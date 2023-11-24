@@ -1,17 +1,33 @@
-import Layout from "../../components/layout";
-import { getContactIds, getContactData } from "../../lib/data";
+import {
+  Box,
+  Container,
+  Stack,
+  Image,
+  Flex,
+  Button,
+  Heading,
+  SimpleGrid,
+  useColorModeValue,
+  Center,
+} from "@chakra-ui/react";
+import Navbar from "../../components/Navbar";
+import { dataUrls, getIds, getItemData } from "../../lib/data";
+import MyFooter from "../../components/Footer";
 
 export async function getStaticProps({ params }) {
-  const itemData = await getContactData(params.id);
+  const urls = dataUrls();
+  const itemData = await getItemData(params.id, urls.contactDataUrl);
   return {
     props: {
       itemData,
     },
+    revalidate: 60,
   };
 }
 
 export async function getStaticPaths() {
-  const paths = await getContactIds();
+  const urls = dataUrls();
+  const paths = await getIds(urls.contactDataUrl);
   return {
     paths,
     fallback: false,
@@ -20,21 +36,52 @@ export async function getStaticPaths() {
 
 export default function Entry({ itemData }) {
   return (
-    <Layout>
-      <article className="card col-6">
-        <div className="card-body">
-          <h5 className="card-title">{itemData.title}</h5>
-          <h6 className="card-subtitle mb-2 text-body-secondary">
-            First Name: {itemData.contact_data.first_name}
-          </h6>
-          <h6 className="card-subtitle mb-2 text-body-secondary">
-            Last Name: {itemData.contact_data.last_name}
-          </h6>
-          <h6 className="card-subtitle mb-2 text-body-secondary">
-            Email: {itemData.contact_data.email}
-          </h6>
-        </div>
-      </article>
-    </Layout>
+    <>
+      <Navbar />
+      <Container maxW={"7xl"}>
+        <SimpleGrid
+          columns={{ base: 1, lg: 2 }}
+          spacing={{ base: 8, md: 10 }}
+          py={{ base: 18, md: 24 }}
+        >
+          <Flex>
+            <Image
+              rounded={"md"}
+              alt={"product image"}
+              src={itemData.acf_fields.image_link}
+              fit={"cover"}
+              align={"center"}
+              w={"100%"}
+              h={{ base: "100%", sm: "400px", lg: "500px" }}
+            />
+          </Flex>
+
+          <Stack spacing={{ base: 6, md: 10 }}>
+            <Box as={"header"}>
+              <Heading
+                lineHeight={1.1}
+                fontWeight={600}
+                fontSize={{ base: "3xl", sm: "4xl", lg: "5xl" }}
+              >
+                {itemData.post_title}
+              </Heading>
+              <Box
+                color={useColorModeValue("gray.500", "gray.400")}
+                fontSize={"xl"}
+                fontWeight={"200"}
+                dangerouslySetInnerHTML={{ __html: itemData.post_content }}
+              ></Box>
+            </Box>
+
+            <Center my={10}>
+              <Button colorScheme="teal" size={"md"}>
+                {itemData.acf_fields.email}
+              </Button>
+            </Center>
+          </Stack>
+        </SimpleGrid>
+      </Container>
+      <MyFooter />
+    </>
   );
 }
