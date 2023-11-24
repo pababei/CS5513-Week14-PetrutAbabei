@@ -120,7 +120,7 @@ export default function Home({ contactData, serviceData, resourceData }) {
           <Accordion allowToggle w={[300, 400, 650, 920, 1220, null]}>
             {resourceData.map(
               ({ post_id, post_title, post_content, acf_fields }) => (
-                <AccordionItem>
+                <AccordionItem key={post_id}>
                   <h2>
                     <AccordionButton>
                       <Box as="span" flex="1" textAlign="left">
