@@ -10,8 +10,14 @@ import {
   useColorMode,
   Heading,
   Link,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  IconButton,
   textDecoration,
 } from "@chakra-ui/react";
+import { HamburgerIcon } from "@chakra-ui/icons";
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -28,7 +34,26 @@ export default function Navbar() {
           </Link>
 
           <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
+            <Stack direction={"row"} spacing={3}>
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<HamburgerIcon />}
+                  variant="outline"
+                />
+                <MenuList>
+                  <MenuItem as="a" href="/services-list">
+                    Services
+                  </MenuItem>
+                  <MenuItem as="a" href="/resources-list">
+                    Resources
+                  </MenuItem>
+                  <MenuItem as="a" href="/contacts-list">
+                    Our team
+                  </MenuItem>
+                </MenuList>
+              </Menu>
               <Button onClick={toggleColorMode}>
                 {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
               </Button>
