@@ -10,9 +10,8 @@ import {
   useColorModeValue,
   Center,
 } from "@chakra-ui/react";
-import Navbar from "../../components/Navbar";
+
 import { dataUrls, getIds, getItemData } from "../../lib/data";
-import MyFooter from "../../components/Footer";
 
 export async function getStaticProps({ params }) {
   const urls = dataUrls();
@@ -37,12 +36,11 @@ export async function getStaticPaths() {
 export default function Entry({ itemData }) {
   return (
     <>
-      <Navbar />
       <Container maxW={"7xl"}>
         <SimpleGrid
           columns={{ base: 1, lg: 2 }}
           spacing={{ base: 8, md: 10 }}
-          py={{ base: 18, md: 24 }}
+          paddingTop={12}
         >
           <Flex>
             <Image
@@ -81,7 +79,6 @@ export default function Entry({ itemData }) {
           </Stack>
         </SimpleGrid>
       </Container>
-      <MyFooter />
     </>
   );
 }
