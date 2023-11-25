@@ -19,7 +19,6 @@ import Hero from "../components/Hero";
 
 import { dataUrls, getSortedList } from "../lib/data";
 
-// define getStaticProps()
 export async function getStaticProps() {
   const urls = dataUrls();
   const contactData = await getSortedList(urls.contactDataUrl);

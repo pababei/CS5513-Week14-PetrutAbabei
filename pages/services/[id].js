@@ -37,7 +37,7 @@ export async function getStaticPaths() {
 export default function Entry({ itemData }) {
   return (
     <>
-      <Container maxW={"7xl"}>
+      <Container maxW={"7xl"} flex={1}>
         <SimpleGrid
           columns={{ base: 1, lg: 2 }}
           spacing={{ base: 8, md: 10 }}
